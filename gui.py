@@ -4,9 +4,9 @@ from gif_reader import read_gif_info
 from data_handler import load_data, save_data
 import os
 
-
+##
 class GIFInfoApp:
-    def _init_(self, master):
+    def __init__(self, master):
         self.master = master
         self.master.title("Extractor de Información de GIF")
         self.master.geometry("900x620")

@@ -4,7 +4,6 @@ from gif_reader import read_gif_info
 from data_handler import load_data, save_data
 import os
 
-##
 class GIFInfoApp:
     def __init__(self, master):
         self.master = master
@@ -25,7 +24,6 @@ class GIFInfoApp:
         header = tk.Label(header_frame, text="Extractor de Información de GIF", font=("Georgia", 24, "bold"), fg="gold", bg="#191970")
         header.pack()
 
-        # Contenedor de botones con fondo geométrico
         button_frame = tk.Frame(master, bg="#191970")
         button_frame.pack(pady=20, padx=20, fill="x")
 
@@ -48,10 +46,7 @@ class GIFInfoApp:
         self.scrollbar = ttk.Scrollbar(master, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = ttk.Frame(self.canvas, style="TFrame")
 
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")),
-        )
+        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
 
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
@@ -92,34 +87,11 @@ class GIFInfoApp:
         frame = ttk.Frame(self.scrollable_frame, style="TFrame")
         frame.pack(pady=10, padx=20, fill="x")
 
-        # Canvas para mostrar el GIF
-        canvas = tk.Canvas(
-            frame, width=180, height=180, bg="#333333", bd=1, relief="solid"
-        )
+        canvas = tk.Canvas(frame, width=180, height=180, bg="#333333", bd=1, relief="solid")
         canvas.pack(side=tk.LEFT, padx=10)
-
-        # Cargar todos los frames del GIF
-        gif_frames = []
-        try:
-            gif_image = tk.PhotoImage(file=file_path)
-            gif_frames.append(gif_image)
-
-            i = 1
-            while True:
-                gif_image = tk.PhotoImage(file=file_path, format=f"gif -index {i}")
-                gif_frames.append(gif_image)
-                i += 1
-        except:
-            pass  # Se alcanza el último frame cuando ocurre una excepción
-
-        # Función para animar el GIF
-        def animate_gif(index=0):
-            canvas.create_image(90, 90, image=gif_frames[index])
-            self.master.after(
-                100, animate_gif, (index + 1) % len(gif_frames)
-            )  # Velocidad de 100ms entre frames
-
-        animate_gif()  # Iniciar la animación
+        gif_image = tk.PhotoImage(file=file_path)
+        canvas.create_image(90, 90, image=gif_image)
+        canvas.image = gif_image
 
         listbox = tk.Listbox(frame, width=60, height=8, font=("Helvetica", 10), bg="#191970", fg="slategray2", selectbackground="gold")
         listbox.pack(side=tk.LEFT, padx=10)
@@ -178,3 +150,7 @@ class GIFInfoApp:
             data.append(gif_info)
         save_data(data)
         messagebox.showinfo("Información", "Los cambios han sido guardados.")
+
+
+
+
